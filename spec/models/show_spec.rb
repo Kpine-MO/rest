@@ -48,6 +48,73 @@ describe Shop do
 
   end
 
+  describe 'Read' do
+
+    before do
+
+      Shop.create(title: "Electronics", opening_date: 1983, owner: "John Doe")
+
+      Shop.create(title: "Books", opening_date: 2004, owner: "Jane Doe")
+
+      Shop.create(title: "Cosmetics", opening_date: 1983, owner: "John Badham")
+
+      
+    end
+     
+    describe '.first_shop' do 
+      it 'returns the first shop' do
+      #  expect(Shop.first_shop).to eq(Shop.first)
+       expect(Shop.first_shop.owner).to eq('John Doe')
+      end
+    end
+
+    describe '.last_shop' do 
+      it 'returns the last shop' do
+      #  expect(Shop.last_shop).to eq(Shop.last)
+       expect(Shop.last_shop.owner).to eq('John Badham')
+      end
+    end
+    
+    describe '.shop_count' do 
+      it 'returns the number of shops' do
+       expect(Shop.shop_count).to eq(Shop.count)
+      end
+    end
+
+    describe '.find_shop_with_id(id)' do 
+      it 'returns the shop with the provided id' do
+       expect(Shop.find_shop_with_id(2).owner).to eq('Jane Doe')
+      end
+    end
+
+    describe '.find_shop_with_attributes(title)' do 
+      it 'returns shop with attribute provided' do
+
+
+        shop = Shop.all
+
+        filtered = shop.map do |f|
+             f.title
+        end
+
+        expect(filtered.include?("Cosmetics")).to eq(true) 
+      end
+    end
+
+    describe '.find_shops_after_2002' do
+     it 'returns shop opened after 2002' do
+
+      opening = Shop.find_shops_after_2002
+
+      expect(opening).to match_array([
+        have_attributes(title: "Books", opening_date: 2004, owner: "Jane Doe"),
+      ])
+
+      end
+    end
+    
+  end
+
  
 
 end
